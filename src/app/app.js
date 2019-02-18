@@ -13,7 +13,7 @@ export function init() {
 
   initUi(field, mainCanvas, mainShapeCanvas, minimapShapeCanvas);
   field.draw(mainShapeCanvas);
-  field.draw(minimapShapeCanvas);
+  field.drawMinimap(minimapShapeCanvas);
 }
 
 function getMouseCoords(canvas, event) {
@@ -34,7 +34,7 @@ function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
     field.player = mouseCoords;
 
     field.draw(mainShapeCanvas);
-    field.draw(minimapShapeCanvas);
+    field.drawMinimap(minimapShapeCanvas);
   });
 
   raysCountSpan.innerText = field.raysCount;
@@ -43,7 +43,7 @@ function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
     raysCountSpan.innerText = event.target.value;
 
     field.draw(mainShapeCanvas);
-    field.draw(minimapShapeCanvas);
+    field.drawMinimap(minimapShapeCanvas);
   });
 
   distanceRangeSpan.innerText = field.viewDistance;
@@ -52,7 +52,7 @@ function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
     distanceRangeSpan.innerText = event.target.value;
 
     field.draw(mainShapeCanvas);
-    field.draw(minimapShapeCanvas);
+    field.drawMinimap(minimapShapeCanvas);
   });
 
   viewSpan.innerText = field.fieldOfView;
@@ -61,7 +61,7 @@ function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
     viewSpan.innerText = event.target.value;
 
     field.draw(mainShapeCanvas);
-    field.draw(minimapShapeCanvas);
+    field.drawMinimap(minimapShapeCanvas);
   });
 
   angleSpan.innerText = field.playerRotation;
@@ -70,6 +70,6 @@ function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
     angleSpan.innerText = event.target.value;
 
     field.draw(mainShapeCanvas);
-    field.draw(minimapShapeCanvas);
+    field.drawMinimap(minimapShapeCanvas);
   });
 }

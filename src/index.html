@@ -21,12 +21,12 @@
       position: absolute;
       bottom: 10px;
       left: 10px;
-      width: 120px;
-      height: 90px;
-      background: #8a8a8a;
+      width: 300px;
+      height: 200px;
+      background: #000014;
       z-index: 10;
     }
-    .adjustments {
+    #adjustments {
       position: absolute;
       top: 0;
       color: white;
@@ -35,7 +35,7 @@
   </style>
   <canvas width="600" height="400" id="main-canvas"></canvas>
   <canvas width="600" height="400" id="minimap-canvas"></canvas>
-  <div class="adjustments">
+  <div id="adjustments">
     <div>
       Rays:
       <input type="range" min="3" max="512" value="512" id="rays-range">

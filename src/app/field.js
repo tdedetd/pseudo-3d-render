@@ -25,17 +25,25 @@ export class Field {
   draw(shapeCanvas) {
     shapeCanvas.clear();
 
+    this._drawCoords(shapeCanvas);
+  }
+
+  drawMinimap(shapeCanvas) {
+    shapeCanvas.clear();
+
     this._drawVision(shapeCanvas);
     this._drawPolygons(shapeCanvas);
     this._drawPlayer(shapeCanvas);
-
-    shapeCanvas.context.fillText(`${this.player.x}, ${this.player.y}`, 0, 400);
   }
 
   _calcEdges() {
     for (let polygon of this.polygons) {
       this.edges.push(...polygon.getEdges());
     }
+  }
+
+  _drawCoords(shapeCanvas) {
+    shapeCanvas.context.fillText(`${this.player.x}, ${this.player.y}`, 0, 400);
   }
 
   _drawPlayer(shapeCanvas) {
