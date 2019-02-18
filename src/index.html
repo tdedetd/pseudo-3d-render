@@ -11,32 +11,51 @@
     body {
       margin: 0;
     }
-    canvas {
-      outline: solid 1px black;
+    #main-canvas {
+      position: relative;
       background: #000014;
       cursor: none;
+      width: 100%;
+    }
+    #minimap-canvas {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      width: 120px;
+      height: 90px;
+      background: #8a8a8a;
+      z-index: 10;
+    }
+    .adjustments {
+      position: absolute;
+      top: 0;
+      color: white;
+      background: rgba(255, 255, 255, .1);
     }
   </style>
-  <canvas width="600" height="400"></canvas>
-  <div>
-    Rays:
-    <input type="range" min="3" max="512" value="512" id="rays-range">
-    <span id="rays-count-span">0</span>
-  </div>
-  <div>
-    View distance:
-    <input type="range" min="50" max="1000" value="300" id="distance-range">
-    <span id="distance-range-span">0</span>
-  </div>
-  <div>
-    Field of view:
-    <input type="range" min="1" max="360" value="90" id="view-range">
-    <span id="view-span">0</span>
-  </div>
-  <div>
-    Angle:
-    <input type="range" min="0" max="360" value="0" id="angle-range">
-    <span id="angle-span">0</span>
+  <canvas width="600" height="400" id="main-canvas"></canvas>
+  <canvas width="600" height="400" id="minimap-canvas"></canvas>
+  <div class="adjustments">
+    <div>
+      Rays:
+      <input type="range" min="3" max="512" value="512" id="rays-range">
+      <span id="rays-count-span">0</span>
+    </div>
+    <div>
+      View distance:
+      <input type="range" min="50" max="1000" value="300" id="distance-range">
+      <span id="distance-range-span">0</span>
+    </div>
+    <div>
+      Field of view:
+      <input type="range" min="1" max="360" value="90" id="view-range">
+      <span id="view-span">0</span>
+    </div>
+    <div>
+      Angle:
+      <input type="range" min="0" max="360" value="0" id="angle-range">
+      <span id="angle-span">0</span>
+    </div>
   </div>
 </body>
 </html>

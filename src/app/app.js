@@ -3,12 +3,17 @@ import { ShapeCanvas } from './shape-canvas';
 import { polygons } from './data/polygons1';
 
 export function init() {
-  let canvas = document.getElementsByTagName('canvas')[0];
-  let shapeCanvas = new ShapeCanvas(canvas);
-  let field = new Field(canvas.width, canvas.height, polygons);
+  let mainCanvas = document.getElementById('main-canvas');
+  let mainShapeCanvas = new ShapeCanvas(mainCanvas);
 
-  initUi(field, canvas, shapeCanvas);
-  field.draw(shapeCanvas);
+  let minimapCanvas = document.getElementById('minimap-canvas');
+  let minimapShapeCanvas = new ShapeCanvas(minimapCanvas);
+
+  let field = new Field(mainCanvas.width, mainCanvas.height, polygons);
+
+  initUi(field, mainCanvas, mainShapeCanvas, minimapShapeCanvas);
+  field.draw(mainShapeCanvas);
+  field.draw(minimapShapeCanvas);
 }
 
 function getMouseCoords(canvas, event) {
@@ -18,7 +23,7 @@ function getMouseCoords(canvas, event) {
   return { x, y };
 }
 
-function initUi(field, canvas, shapeCanvas) {
+function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
   const raysCountSpan = document.getElementById('rays-count-span');
   const distanceRangeSpan = document.getElementById('distance-range-span');
   const viewSpan = document.getElementById('view-span');
@@ -27,7 +32,9 @@ function initUi(field, canvas, shapeCanvas) {
   canvas.addEventListener('mousemove', event => {
     const mouseCoords = getMouseCoords(canvas, event);
     field.player = mouseCoords;
-    field.draw(shapeCanvas);
+
+    field.draw(mainShapeCanvas);
+    field.draw(minimapShapeCanvas);
   });
 
   raysCountSpan.innerText = field.raysCount;
@@ -35,7 +42,8 @@ function initUi(field, canvas, shapeCanvas) {
     field.raysCount = Number.parseInt(event.target.value);
     raysCountSpan.innerText = event.target.value;
 
-    field.draw(shapeCanvas);
+    field.draw(mainShapeCanvas);
+    field.draw(minimapShapeCanvas);
   });
 
   distanceRangeSpan.innerText = field.viewDistance;
@@ -43,7 +51,8 @@ function initUi(field, canvas, shapeCanvas) {
     field.viewDistance = Number.parseInt(event.target.value);
     distanceRangeSpan.innerText = event.target.value;
 
-    field.draw(shapeCanvas);
+    field.draw(mainShapeCanvas);
+    field.draw(minimapShapeCanvas);
   });
 
   viewSpan.innerText = field.fieldOfView;
@@ -51,7 +60,8 @@ function initUi(field, canvas, shapeCanvas) {
     field.fieldOfView = Number.parseInt(event.target.value);
     viewSpan.innerText = event.target.value;
 
-    field.draw(shapeCanvas);
+    field.draw(mainShapeCanvas);
+    field.draw(minimapShapeCanvas);
   });
 
   angleSpan.innerText = field.playerRotation;
@@ -59,6 +69,7 @@ function initUi(field, canvas, shapeCanvas) {
     field.playerRotation = Number.parseInt(event.target.value);
     angleSpan.innerText = event.target.value;
 
-    field.draw(shapeCanvas);
+    field.draw(mainShapeCanvas);
+    field.draw(minimapShapeCanvas);
   });
 }
