@@ -5,6 +5,7 @@ export class Field {
   // TODO: detach game logic from rendering into game.js or logic.js
   constructor(width, height, polygons) {
     // Logic
+    // TODO: add canvas size vars
     this.width = width;
     this.height = height;
     this.polygons = polygons;
@@ -15,7 +16,7 @@ export class Field {
     this.fieldOfView = 90;
     this.viewDistance = 300;
 
-    this.raysCount = 512;
+    this.raysCount = 600;
     this.needDrawRays = false;
     this.edges = [];
 
@@ -25,6 +26,7 @@ export class Field {
   draw(shapeCanvas) {
     shapeCanvas.clear();
 
+    this._drawMap(shapeCanvas);
     this._drawCoords(shapeCanvas);
   }
 
@@ -64,13 +66,24 @@ export class Field {
     });
   }
 
-  _drawVision(shapeCanvas) {
-    let visionPolygon = [];
-    let rays = this._getRays(this.raysCount, this.viewDistance);
+  _drawMap(shapeCanvas) {
+    const rays = this._getRays(this.raysCount, this.viewDistance);
+    const visionPolygon = this._getClosestIntersectionPoints(rays);
+    const distancesToClosestBarriers =
+      visionPolygon.map(point => getDistance(this.player, point));
 
-    rays.forEach(ray => {
-      visionPolygon.push(this._getClosestIntersectionPoint(ray));
+    // TODO: remove hardcoding
+    let length, color;
+    distancesToClosestBarriers.forEach((value, x) => {
+      color = 255 - 255 * value / this.viewDistance;
+      length = 400 - 400 * value / this.viewDistance;
+      shapeCanvas.strokeLine(x, 200 - length / 2, x, length, `rgba(0, 0, ${color})`);
     });
+  }
+
+  _drawVision(shapeCanvas) {
+    const rays = this._getRays(this.raysCount, this.viewDistance);
+    let visionPolygon = this._getClosestIntersectionPoints(rays);
 
     if (this.fieldOfView < 360) {
       visionPolygon.push(this.player);
@@ -105,6 +118,15 @@ export class Field {
     )[0];
 
     return closestPoint;
+  }
+
+  _getClosestIntersectionPoints(rays) {
+    let closestPoints = [];
+
+    rays.forEach(ray => {
+      closestPoints.push(this._getClosestIntersectionPoint(ray));
+    });
+    return closestPoints;
   }
 
   /**
