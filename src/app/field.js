@@ -26,7 +26,7 @@ export class Field {
   draw(shapeCanvas) {
     shapeCanvas.clear();
 
-    this._drawMap(shapeCanvas);
+    this._drawWalls(shapeCanvas);
     this._drawCoords(shapeCanvas);
   }
 
@@ -66,18 +66,22 @@ export class Field {
     });
   }
 
-  _drawMap(shapeCanvas) {
+  _drawWalls(shapeCanvas) {
     const rays = this._getRays(this.raysCount, this.viewDistance);
     const visionPolygon = this._getClosestIntersectionPoints(rays);
     const distancesToClosestBarriers =
       visionPolygon.map(point => getDistance(this.player, point));
 
-    // TODO: remove hardcoding
-    let length, color;
-    distancesToClosestBarriers.forEach((value, x) => {
-      color = 255 - 255 * value / this.viewDistance;
-      length = 400 - 400 * value / this.viewDistance;
-      shapeCanvas.strokeLine(x, 200 - length / 2, x, length, `rgba(0, 0, ${color})`);
+    // TODO: remove fish eye effect (angles needed)
+    const halfHeight = this.height / 2;
+    let length, color, koef;
+
+    distancesToClosestBarriers.forEach((pointDistance, x) => {
+      koef = pointDistance / this.viewDistance;
+      color = 255 - 255 * koef;
+      length = this.height - this.height * koef;
+
+      shapeCanvas.strokeLine(x, halfHeight - length / 2, x, length, `rgba(0, 0, ${color})`);
     });
   }
 
