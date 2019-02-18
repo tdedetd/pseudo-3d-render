@@ -14,7 +14,6 @@
     #main-canvas {
       position: relative;
       background: #000014;
-      cursor: none;
       width: 100%;
     }
     #minimap-canvas {
@@ -37,11 +36,6 @@
   <canvas width="600" height="400" id="minimap-canvas"></canvas>
   <div id="adjustments">
     <div>
-      Rays:
-      <input type="range" min="3" max="512" value="512" id="rays-range">
-      <span id="rays-count-span">0</span>
-    </div>
-    <div>
       View distance:
       <input type="range" min="50" max="1000" value="300" id="distance-range">
       <span id="distance-range-span">0</span>
@@ -55,6 +49,18 @@
       Angle:
       <input type="range" min="0" max="360" value="0" id="angle-range">
       <span id="angle-span">0</span>
+    </div>
+    <!-- TODO: remove hardcode -->
+    <div>
+      X:
+      <input type="range" min="0" max="600" value="300" id="x-range">
+      <span id="x-span">0</span>
+    </div>
+    <!-- TODO: remove hardcode -->
+    <div>
+      Y:
+      <input type="range" min="0" max="400" value="200" id="y-range">
+      <span id="y-span">0</span>
     </div>
   </div>
 </body>

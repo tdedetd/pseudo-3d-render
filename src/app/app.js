@@ -16,35 +16,12 @@ export function init() {
   field.drawMinimap(minimapShapeCanvas);
 }
 
-function getMouseCoords(canvas, event) {
-  const canvasRect = canvas.getBoundingClientRect();
-  const x = event.pageX - canvasRect.left;
-  const y = event.pageY - canvasRect.top - window.scrollY;
-  return { x, y };
-}
-
 function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
-  const raysCountSpan = document.getElementById('rays-count-span');
   const distanceRangeSpan = document.getElementById('distance-range-span');
   const viewSpan = document.getElementById('view-span');
   const angleSpan = document.getElementById('angle-span');
-
-  canvas.addEventListener('mousemove', event => {
-    const mouseCoords = getMouseCoords(canvas, event);
-    field.player = mouseCoords;
-
-    field.draw(mainShapeCanvas);
-    field.drawMinimap(minimapShapeCanvas);
-  });
-
-  raysCountSpan.innerText = field.raysCount;
-  document.getElementById('rays-range').addEventListener('input', event => {
-    field.raysCount = Number.parseInt(event.target.value);
-    raysCountSpan.innerText = event.target.value;
-
-    field.draw(mainShapeCanvas);
-    field.drawMinimap(minimapShapeCanvas);
-  });
+  const xSpan = document.getElementById('x-span');
+  const ySpan = document.getElementById('y-span');
 
   distanceRangeSpan.innerText = field.viewDistance;
   document.getElementById('distance-range').addEventListener('input', event => {
@@ -68,6 +45,24 @@ function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
   document.getElementById('angle-range').addEventListener('input', event => {
     field.playerRotation = Number.parseInt(event.target.value);
     angleSpan.innerText = event.target.value;
+
+    field.draw(mainShapeCanvas);
+    field.drawMinimap(minimapShapeCanvas);
+  });
+
+  xSpan.innerText = field.player.x;
+  document.getElementById('x-range').addEventListener('input', event => {
+    field.player.x = Number.parseInt(event.target.value);
+    xSpan.innerText = event.target.value;
+
+    field.draw(mainShapeCanvas);
+    field.drawMinimap(minimapShapeCanvas);
+  });
+
+  ySpan.innerText = field.player.y;
+  document.getElementById('y-range').addEventListener('input', event => {
+    field.player.y = Number.parseInt(event.target.value);
+    ySpan.innerText = event.target.value;
 
     field.draw(mainShapeCanvas);
     field.drawMinimap(minimapShapeCanvas);
