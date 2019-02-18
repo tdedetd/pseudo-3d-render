@@ -1,0 +1,22 @@
+{
+  "name": "canvas-test",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "webpack.config-draft.js",
+  "scripts": {
+    "dev": "webpack-dev-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "line-intersect": "^2.2.0"
+  }
+}
