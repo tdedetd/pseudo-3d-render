@@ -17,54 +17,65 @@ export function init() {
 }
 
 function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
-  const distanceRangeSpan = document.getElementById('distance-range-span');
-  const viewSpan = document.getElementById('view-span');
-  const angleSpan = document.getElementById('angle-span');
-  const xSpan = document.getElementById('x-span');
-  const ySpan = document.getElementById('y-span');
 
-  distanceRangeSpan.innerText = field.viewDistance;
-  document.getElementById('distance-range').addEventListener('input', event => {
-    field.viewDistance = Number.parseInt(event.target.value);
-    distanceRangeSpan.innerText = event.target.value;
+  const ranges = [
+    {
+      spanId: 'distance-span',
+      rangeId: 'distance-range',
+      getVal: () => field.viewDistance,
+      setVal: val => field.viewDistance = val
+    },
+    {
+      spanId: 'view-span',
+      rangeId: 'view-range',
+      getVal: () => field.fieldOfView,
+      setVal: val => field.fieldOfView = val
+    },
+    {
+      spanId: 'angle-span',
+      rangeId: 'angle-range',
+      getVal: () => field.playerRotation,
+      setVal: val => field.playerRotation = val
+    },
+    {
+      spanId: 'x-span',
+      rangeId: 'x-range',
+      getVal: () => field.player.x,
+      setVal: val => field.player.x = val
+    },
+    {
+      spanId: 'y-span',
+      rangeId: 'y-range',
+      getVal: () => field.player.y,
+      setVal: val => field.player.y = val
+    }
+  ];
 
-    field.draw(mainShapeCanvas);
-    field.drawMinimap(minimapShapeCanvas);
-  });
+  ranges.forEach(range => initRange(range.spanId, range.rangeId, field,
+    mainShapeCanvas, minimapShapeCanvas, range.getVal, range.setVal));
+}
 
-  viewSpan.innerText = field.fieldOfView;
-  document.getElementById('view-range').addEventListener('input', event => {
-    field.fieldOfView = Number.parseInt(event.target.value);
-    viewSpan.innerText = event.target.value;
+/**
+ * Inits specified range DOM element
+ * @param {string} spanId id of DOM span element
+ * @param {string} rangeId id of DOM range element
+ * @param {object} field instance of Field
+ * @param {object} shapeCanvas 
+ * @param {object} minimapShapeCanvas 
+ * @param {function} getVal logic defines getting value of field object
+ * @param {function} setVal logic defines setting value of field object
+ */
+function initRange(spanId, rangeId, field, shapeCanvas, minimapShapeCanvas, getVal, setVal) {
+  const spanEl = document.getElementById(spanId);
+  const rangeEl = document.getElementById(rangeId);
 
-    field.draw(mainShapeCanvas);
-    field.drawMinimap(minimapShapeCanvas);
-  });
+  spanEl.innerText = getVal();
 
-  angleSpan.innerText = field.playerRotation;
-  document.getElementById('angle-range').addEventListener('input', event => {
-    field.playerRotation = Number.parseInt(event.target.value);
-    angleSpan.innerText = event.target.value;
+  rangeEl.addEventListener('input', event => {
+    setVal(Number.parseInt(event.target.value));
+    spanEl.innerText = event.target.value;
 
-    field.draw(mainShapeCanvas);
-    field.drawMinimap(minimapShapeCanvas);
-  });
-
-  xSpan.innerText = field.player.x;
-  document.getElementById('x-range').addEventListener('input', event => {
-    field.player.x = Number.parseInt(event.target.value);
-    xSpan.innerText = event.target.value;
-
-    field.draw(mainShapeCanvas);
-    field.drawMinimap(minimapShapeCanvas);
-  });
-
-  ySpan.innerText = field.player.y;
-  document.getElementById('y-range').addEventListener('input', event => {
-    field.player.y = Number.parseInt(event.target.value);
-    ySpan.innerText = event.target.value;
-
-    field.draw(mainShapeCanvas);
+    field.draw(shapeCanvas);
     field.drawMinimap(minimapShapeCanvas);
   });
 }
