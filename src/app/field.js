@@ -5,18 +5,17 @@ export class Field {
   // TODO: detach game logic from rendering into game.js or logic.js
   constructor(width, height, polygons) {
     // Logic
-    // TODO: add canvas size vars
-    this.width = width;
-    this.height = height;
+    this.width = width; // render width
+    this.height = height; // render height
     this.polygons = polygons;
-    this.player = { x: width / 2, y: height / 2 };
-    this.playerRotation = 0;
+    this.player = { x: 300, y: 150 };
+    this.playerRotation = 180;
 
     // Graphics
     this.fieldOfView = 90;
     this.viewDistance = 300;
 
-    this.raysCount = 600;
+    this.raysCount = width;
     this.needDrawRays = false;
     this.edges = [];
 
@@ -45,7 +44,7 @@ export class Field {
   }
 
   _drawCoords(shapeCanvas) {
-    shapeCanvas.context.fillText(`${this.player.x}, ${this.player.y}`, 0, 400);
+    shapeCanvas.context.fillText(`${this.player.x}, ${this.player.y}`, this.width - 100, this.height - 100);
   }
 
   _drawPlayer(shapeCanvas) {
@@ -69,19 +68,20 @@ export class Field {
   _drawWalls(shapeCanvas) {
     const rays = this._getRays(this.raysCount, this.viewDistance);
     const visionPolygon = this._getClosestIntersectionPoints(rays);
-    const distancesToClosestBarriers =
-      visionPolygon.map(point => getDistance(this.player, point));
+    const distanceMap = visionPolygon.map(point => getDistance(this.player, point));
 
-    // TODO: remove fish eye effect (angles needed)
+    // TODO: remove fish eye effect
     const halfHeight = this.height / 2;
-    let length, alpha, koef;
+    let halfLength, alpha, koef;
 
-    distancesToClosestBarriers.forEach((pointDistance, x) => {
-      koef = 100 / (pointDistance + 100);
-      length = koef * halfHeight;
-      alpha = 1 - pointDistance / this.viewDistance;
+    distanceMap.forEach((distance, x) => {
+      koef = 100 / (distance + 100);
+      halfLength = koef * halfHeight;
+      alpha = 1 - distance / this.viewDistance;
 
-      shapeCanvas.strokeLine(x, halfHeight - length, x, halfHeight + length, `rgba(0, 0, 255, ${alpha})`);
+      shapeCanvas.strokeLine(x, halfHeight - halfLength,
+                             x, halfHeight + halfLength,
+                             `rgba(0, 0, 255, ${alpha})`);
     });
   }
 

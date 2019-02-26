@@ -11,12 +11,12 @@ export function init() {
 
   let field = new Field(mainCanvas.width, mainCanvas.height, polygons);
 
-  initUi(field, mainCanvas, mainShapeCanvas, minimapShapeCanvas);
+  initUi(field, mainShapeCanvas, minimapShapeCanvas);
   field.draw(mainShapeCanvas);
   field.drawMinimap(minimapShapeCanvas);
 }
 
-function initUi(field, canvas, mainShapeCanvas, minimapShapeCanvas) {
+function initUi(field, mainShapeCanvas, minimapShapeCanvas) {
 
   const ranges = [
     {
