@@ -74,14 +74,14 @@ export class Field {
 
     // TODO: remove fish eye effect (angles needed)
     const halfHeight = this.height / 2;
-    let length, color, koef;
+    let length, alpha, koef;
 
     distancesToClosestBarriers.forEach((pointDistance, x) => {
-      koef = pointDistance / this.viewDistance;
-      color = 255 - 255 * koef;
-      length = this.height - this.height * koef;
+      koef = 100 / (pointDistance + 100);
+      length = koef * halfHeight;
+      alpha = 1 - pointDistance / this.viewDistance;
 
-      shapeCanvas.strokeLine(x, halfHeight - length / 2, x, length, `rgba(0, 0, ${color})`);
+      shapeCanvas.strokeLine(x, halfHeight - length, x, halfHeight + length, `rgba(0, 0, 255, ${alpha})`);
     });
   }
 
