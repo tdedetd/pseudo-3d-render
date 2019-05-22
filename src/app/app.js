@@ -1,8 +1,7 @@
 import { Field } from './field';
 import { ShapeCanvas } from './shape-canvas';
-import { polygons } from './data/polygons1';
 
-export function init() {
+export function init(polygons) {
   let mainCanvas = document.getElementById('main-canvas');
   let mainShapeCanvas = new ShapeCanvas(mainCanvas);
 
@@ -17,63 +16,68 @@ export function init() {
 }
 
 function initUi(field, mainShapeCanvas, minimapShapeCanvas) {
+  const uiEl = document.getElementById('adjustments');
 
   const ranges = [
     {
-      spanId: 'distance-span',
-      rangeId: 'distance-range',
-      getVal: () => field.viewDistance,
-      setVal: val => field.viewDistance = val
+      title: 'View distance',
+      attr: 'viewDistance',
+      min: 50,
+      max: 1000
     },
     {
-      spanId: 'view-span',
-      rangeId: 'view-range',
-      getVal: () => field.fieldOfView,
-      setVal: val => field.fieldOfView = val
+      title: 'Field of view',
+      attr: 'fieldOfView',
+      min: 1,
+      max: 360
     },
     {
-      spanId: 'angle-span',
-      rangeId: 'angle-range',
-      getVal: () => field.playerRotation,
-      setVal: val => field.playerRotation = val
+      title: 'Angle',
+      attr: 'playerRotation',
+      min: 0,
+      max: 360
     },
     {
-      spanId: 'x-span',
-      rangeId: 'x-range',
-      getVal: () => field.player.x,
-      setVal: val => field.player.x = val
+      title: 'X',
+      attr: 'playerX',
+      min: 0,
+      max: 600
     },
     {
-      spanId: 'y-span',
-      rangeId: 'y-range',
-      getVal: () => field.player.y,
-      setVal: val => field.player.y = val
+      title: 'Y',
+      attr: 'playerY',
+      min: 0,
+      max: 400
     }
   ];
 
-  ranges.forEach(range => initRange(range.spanId, range.rangeId, field,
-    mainShapeCanvas, minimapShapeCanvas, range.getVal, range.setVal));
+  ranges.forEach(range => initRange(range, field, mainShapeCanvas, minimapShapeCanvas, uiEl));
 }
 
 /**
  * Inits specified range DOM element
- * @param {string} spanId id of DOM span element
- * @param {string} rangeId id of DOM range element
- * @param {object} field instance of Field
- * @param {object} shapeCanvas 
- * @param {object} minimapShapeCanvas 
- * @param {function} getVal logic defines getting value of field object
- * @param {function} setVal logic defines setting value of field object
  */
-function initRange(spanId, rangeId, field, shapeCanvas, minimapShapeCanvas, getVal, setVal) {
-  const spanEl = document.getElementById(spanId);
-  const rangeEl = document.getElementById(rangeId);
+function initRange(range, field, shapeCanvas, minimapShapeCanvas, uiEl) {
+  const element = document.createElement('div');
+  const titleEl = document.createElement('span');
+  const inputEl = document.createElement('input');
+  const valueEl = document.createElement('span');
 
-  spanEl.innerText = getVal();
+  titleEl.innerText = range.title + ':';
+  inputEl.type = 'range';
+  inputEl.min = range.min;
+  inputEl.max = range.max;
+  inputEl.value = field[range.attr];
+  valueEl.innerText = field[range.attr];
 
-  rangeEl.addEventListener('input', event => {
-    setVal(Number.parseInt(event.target.value));
-    spanEl.innerText = event.target.value;
+  element.appendChild(titleEl);
+  element.appendChild(inputEl);
+  element.appendChild(valueEl);
+  uiEl.appendChild(element);
+
+  inputEl.addEventListener('input', event => {
+    field[range.attr] = Number.parseInt(event.target.value);
+    valueEl.innerText = event.target.value;
 
     field.draw(shapeCanvas);
     field.drawMinimap(minimapShapeCanvas);

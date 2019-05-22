@@ -1,8 +1,6 @@
-import { Point } from './shapes';
-
 /**
  * Converts polar coordinate system to cartesian
- * @param {number} angle 
+ * @param {number} angle in degree
  * @param {number} radius 
  * @param {object} origin object of { x: number, y: number }
  */

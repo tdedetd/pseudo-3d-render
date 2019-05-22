@@ -14,10 +14,9 @@ export class Polygon {
     let lines = [];
     const pointsCount = this.points.length;
 
-    for (let firstPointNdx = 0; firstPointNdx < pointsCount; firstPointNdx++) {
-
-      const secondPointNdx = (firstPointNdx + 1) % pointsCount;
-      lines.push([this.points[firstPointNdx], this.points[secondPointNdx]]);
+    for (let i = 0; i < pointsCount; i++) {
+      lines.push([this.points[i],
+                  this.points[(i + 1) % pointsCount]]);
     }
 
     return lines;

@@ -2,7 +2,13 @@ import { checkIntersection } from 'line-intersect';
 import { polarToCartesian, getDistance } from './geometry/coordinate-systems';
 
 export class Field {
-  // TODO: detach game logic from rendering into game.js or logic.js
+
+  get playerX() { return this.player.x; }
+  set playerX(val) { this.player.x = val; }
+
+  get playerY() { return this.player.y; }
+  set playerY(val) { this.player.y = val; }
+
   constructor(width, height, polygons) {
     // Logic
     this.width = width; // render width
