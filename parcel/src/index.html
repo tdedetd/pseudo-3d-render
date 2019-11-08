@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>2d vision test</title>
+</head>
+<body>
+  <style>
+    body { margin: 0; }
+    #main-canvas {
+      position: relative;
+      background: #000014;
+    }
+    #minimap-canvas {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      width: 300px;
+      height: 200px;
+      background: #000014;
+      z-index: 10;
+    }
+    #adjustments {
+      position: absolute;
+      top: 0;
+      color: white;
+      background: rgba(255, 255, 255, .1);
+    }
+  </style>
+  <canvas width="1300" height="700" id="main-canvas"></canvas>
+  <canvas width="600" height="400" id="minimap-canvas"></canvas>
+  <div id="adjustments"></div>
+  <script type="text/javascript" src="main.js"></script>
+</body>
+</html>
